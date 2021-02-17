@@ -8,7 +8,7 @@ import { StoreContext } from '../../Store/StoreProvider';
 
 import Header from './Header';
 
- const MainContent = ({ navigation, route }) => {
+ const MainContent = ({ route }) => {
 
   const { city } = route.params;
   let currentCity = city; 
@@ -35,33 +35,16 @@ import Header from './Header';
   };
 
   function getWeatherData() {
-
+    console.log('odśwież')
     let lat = location.coords.latitude;
     let lon = location.coords.longitude;
 
     const initialEndpoint = `/weather?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
-    //const endpoint = `/weather?q=${currentCity}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
-
-    request.get(initialEndpoint)
-    .then(res => {
-      const data = res.data;
-      setInformation({
-        name:data.name,
-        temp:data.main.temp,
-        humidity:data.main.humidity,
-        desc:data.weather[0].description,
-        icon:data.weather[0].icon,
-      });
-    })
-    .catch(err => {
-      alert(`tu jest błąd: ${err}`);
-    })
-  }
-
-  function updateWeatherData() {
     const endpoint = `/weather?q=${currentCity}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
 
-    request.get(endpoint)
+    let isCity = currentCity ? endpoint : initialEndpoint;
+
+    request.get(isCity)
     .then(res => {
       const data = res.data;
       setInformation({
@@ -73,7 +56,7 @@ import Header from './Header';
       });
     })
     .catch(err => {
-      alert(`tu jest błąd: ${err}`);
+      alert(`Nie ma takiego miasta lub wystąpił błąd serwera`);
     })
   }
 
@@ -85,13 +68,7 @@ import Header from './Header';
     if (location?.coords) {
       getWeatherData();
     }
-  }, [location]);
-
-  useEffect(() => {
-    if (currentCity) {
-      updateWeatherData();
-    }
-  }, [currentCity]);
+  }, [currentCity , location ]);
 
   let URI = `https://openweathermap.org/img/w/${information.icon}.png`;
 
@@ -116,7 +93,16 @@ import Header from './Header';
             <Card style={{margin:5,padding:12
             }}>
             <Title style={{color:'#3498db'}}>Opis: {information.desc}</Title>
-            </Card>
+        </Card>
+        <View>
+          <Button 
+            mode="contained"
+            color="#3498db"
+            style={{marginLeft:"auto",marginRight:"auto",marginTop:10}}
+            onPress={() => console.log('klik')}>
+            <Text style={{color:"white"}}>odśwież</Text>
+          </Button>
+        </View>
       </View>
   )
 }

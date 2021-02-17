@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 import { TextInput, Button, ViewStyle } from 'react-native-paper';
 
@@ -9,11 +9,10 @@ import request from '../../Requests/APIKit'
 
 const SearchCity = ({ navigation }) => {
 
-  const {city, setCity} = React.useContext(StoreContext);
+  const {city, setCity} = useContext(StoreContext);
 
   const handleOnPress = () => {
     navigation.navigate("Strona główna",{city:city});
-    console.log(city);
     setCity('');
   }
 
