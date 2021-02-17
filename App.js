@@ -27,6 +27,7 @@ export default function App() {
             options={{
               tabBarIcon: props => <AntDesign name="home" size={24} color={props.color} /> 
             }}
+            initialParams={{ city:'' }}
           />
           <Bottom.Screen name="Szukaj" component={SearchCity}
             options={{

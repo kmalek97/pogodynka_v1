@@ -8,7 +8,10 @@ import { StoreContext } from '../../Store/StoreProvider';
 
 import Header from './Header';
 
- const MainContent = () => {
+ const MainContent = ({ navigation, route }) => {
+
+  const { city } = route.params.city;
+  let currentCity = city; 
 
   const [information, setInformation] = useState({
     name:'chwilunia',
@@ -31,13 +34,15 @@ import Header from './Header';
     setLocation(currentLocation);
   };
 
-  function saveWeatherData() {
+  function getWeatherData() {
+
     let lat = location.coords.latitude;
     let lon = location.coords.longitude;
 
-    const endpoint = `/weather?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
+    const initialEndpoint = `/weather?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
+    //const endpoint = `/weather?q=${currentCity}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
 
-    request.get(endpoint)
+    request.get(initialEndpoint)
     .then(res => {
       const data = res.data;
       setInformation({
@@ -59,7 +64,7 @@ import Header from './Header';
 
   useEffect(() => {
     if (location?.coords) {
-      saveWeatherData();
+      getWeatherData();
     }
   }, [location]);
 

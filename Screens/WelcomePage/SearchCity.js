@@ -7,23 +7,14 @@ import Header from './Header';
 import request from '../../Requests/APIKit'
 
 
-const SearchCity = ({navigation}) => {
+const SearchCity = ({ navigation }) => {
 
   const {city, setCity} = React.useContext(StoreContext);
 
-  //const handleClick = () =>{
-    //const endpoint = `/weather?q=${city}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
-    //
-    //request.get(endpoint)
-    //.then(res => {
-      //const data = res.data;
-      //console.log(data);
-    //})
-    //.catch(err => console.log(err + 'dupa'))
-  //}
-
   const handleOnPress = () => {
     navigation.navigate("Strona główna",{city:city});
+    console.log(city);
+    setCity('');
   }
 
   return (
