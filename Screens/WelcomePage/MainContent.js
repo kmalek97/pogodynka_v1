@@ -10,7 +10,7 @@ import Header from './Header';
 
  const MainContent = ({ navigation, route }) => {
 
-  const { city } = route.params.city;
+  const { city } = route.params;
   let currentCity = city; 
 
   const [information, setInformation] = useState({
@@ -58,6 +58,25 @@ import Header from './Header';
     })
   }
 
+  function updateWeatherData() {
+    const endpoint = `/weather?q=${currentCity}&units=metric&lang=pl&appid=0dc29c7083613a2117fd359b623e0b9d`;
+
+    request.get(endpoint)
+    .then(res => {
+      const data = res.data;
+      setInformation({
+        name:data.name,
+        temp:data.main.temp,
+        humidity:data.main.humidity,
+        desc:data.weather[0].description,
+        icon:data.weather[0].icon,
+      });
+    })
+    .catch(err => {
+      alert(`tu jest błąd: ${err}`);
+    })
+  }
+
   useEffect(() => {
     asyncPosition();
   }, []);
@@ -67,6 +86,12 @@ import Header from './Header';
       getWeatherData();
     }
   }, [location]);
+
+  useEffect(() => {
+    if (currentCity) {
+      updateWeatherData();
+    }
+  }, [currentCity]);
 
   let URI = `https://openweathermap.org/img/w/${information.icon}.png`;
 
