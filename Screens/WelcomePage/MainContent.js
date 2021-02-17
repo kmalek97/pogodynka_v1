@@ -18,7 +18,7 @@ import Header from './Header';
     temp:'ładowanie',
     humidity:'ładowanie',
     desc:'ładowanie',
-    icon:'ładowanie'
+    icon:'ładowanie',
   });
 
   const {location, setLocation } = useContext(StoreContext);
@@ -34,8 +34,8 @@ import Header from './Header';
     setLocation(currentLocation);
   };
 
-  function getWeatherData() {
-    console.log('odśwież')
+  const getWeatherData = () => {
+    
     let lat = location.coords.latitude;
     let lon = location.coords.longitude;
 
@@ -58,7 +58,7 @@ import Header from './Header';
     .catch(err => {
       alert(`Nie ma takiego miasta lub wystąpił błąd serwera`);
     })
-  }
+  } 
 
   useEffect(() => {
     asyncPosition();
@@ -86,12 +86,11 @@ import Header from './Header';
 
         <Card style={{margin:5,padding:12}}>
             <Title style={{color:'#3498db'}}>Temperatura: {information.temp}&deg;C</Title>
-            </Card>
-            <Card style={{margin:5,padding:12}}>
+        </Card>
+        <Card style={{margin:5,padding:12}}>
             <Title style={{color:'#3498db'}}>Wilgotność powietrza: {information.humidity}%</Title>
-            </Card>
-            <Card style={{margin:5,padding:12
-            }}>
+        </Card>
+        <Card style={{margin:5,padding:12}}>
             <Title style={{color:'#3498db'}}>Opis: {information.desc}</Title>
         </Card>
         <View>
@@ -99,7 +98,7 @@ import Header from './Header';
             mode="contained"
             color="#3498db"
             style={{marginLeft:"auto",marginRight:"auto",marginTop:10}}
-            onPress={() => console.log('klik')}>
+            onPress={getWeatherData}>
             <Text style={{color:"white"}}>odśwież</Text>
           </Button>
         </View>
